@@ -1,139 +1,234 @@
 
-    var shuffleSequence = seq("consent", "intro", "practice", "begin", sepWith("sep", rshuffle("coercion", "preferred", "dispreferred")), "sr", "debrief");
-    var practiceItemTypes = ["practice"];
+var shuffleSequence = seq("consent", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
+var practiceItemTypes = ["practice"];
 
-    var defaults = [
-        "Separator", {
-            transfer: 500,
-            hideProgressBar: true,
-            normalMessage: "+"
-        },
-        "Message", {
-            transfer: "keypress",
-            hideProgressBar: true
-        },
-        "Form", { hideProgressBar: true }
+var defaults = [
+    "Separator", {
+        transfer: 500,
+        hideProgressBar: true,
+        normalMessage: "+"
+    },
+    "Message", {
+        transfer: "keypress",
+        hideProgressBar: true
+    },
+    "Form", { hideProgressBar: true }
 
-    ];
+];
 
-    var items = [
-            ["consent", "Form", {
-            html: { include: "consent.html" },
-                    validators: {age: function (s) { if (s.match(/^\d+$/)) return true;
-                                                            else return "Bad value for age"; }}
-        } ],
+var items = [
+        ["consent", "Form", {
+        html: { include: "consent.html" },
+                validators: {age: function (s) { if (s.match(/^\d+$/)) return true;
+                                                        else return "Bad value for age"; }}
+    } ],
 
-            ["intro", "Message", {html: { include: "intro.html" }}],
+        ["intro", "Message", {html: { include: "intro.html" }}],
 
-            ["practice", "DashedSentence", {s: "Gary ran quickly to the minimart to get milk."},
-                         "Question",       {q: 'Did Gary run slowly?', as: ['Yes', 'No']}],
-            ["practice", "DashedSentence", {s: "Stacy built a house out of mud and straw."},
-                         "Question",       {q: 'Did Stacy use mud?', as: ['Yes', 'No']}],],
-            ["practice", "DashedSentence", {s: "Bill ate five veggie burgers in one hour."},
-                         "Question",       {q: 'Did Bill eat turkey burgers?', as: ['Yes', 'No']}],],
+        ["practice", "DashedSentence", {s: "Gary ran quickly to a minimart to get milk."},
+                     "Question",       {q: "Where did Gary run?", hasCorrect:"a minimart",  as: ["a minimart", "a dairy", "a wine store"]}],
+        ["practice", "DashedSentence", {s: "Stacy built a house out of mud."},
+                     "Question",       {q: 'What did Stacy build her house out of?', hasCorrect: "mud",  as: ["straw", "mud", "wood"]}],],
+        ["practice", "DashedSentence", {s: "Bill ate five veggie burgers in one hour."},
+                     "Question",       {q: "What kind of burgers did Bill eat?", hasCorrect: "veggie",  as: ["veggie", "turkey", "beef"]}],],
 
-            ["begin", "Message", {
-                                    html: { include: "begin.html" },
-                                    } ],
+        ["begin", "Message", {
+                                html: { include: "begin.html" },
+                                } ],
 
         ["sep", "Separator", { }],
 
-        [["coercion", 1], "DashedSentence", {s: "The surfer endured the tuxedo but felt very uncomfortable."}, "Question", {q: "Was the surfer comfortable?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 1], "DashedSentence", {s: "The surfer wore the tuxedo but felt very uncomfortable."}, "Question", {q: "Was the surfer comfortable?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 1], "DashedSentence", {s: "The surfer rented the tuxedo but felt very uncomfortable."}, "Question", {q: "Was the surfer comfortable?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 2], "DashedSentence", {s: "The secretary began the memo before the annual sales conference."}, "Question", {q: "Was it after the conference?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 2], "DashedSentence", {s: "The secretary typed the memo before the annual sales conference."}, "Question", {q: "Was it after the conference?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 2], "DashedSentence", {s: "The secretary read the memo before the annual sales conference."}, "Question", {q: "Was it after the conference?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 3], "DashedSentence", {s: "The pilot mastered the airplane and moved on to the helicopter."}, "Question", {q: "Did he fly the plane first?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 3], "DashedSentence", {s: "The pilot flew the airplane and moved on to the helicopter."}, "Question", {q: "Did he fly the plane first?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 3], "DashedSentence", {s: "The pilot landed the airplane and moved on to the helicopter."}, "Question", {q: "Did he fly the plane first?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 4], "DashedSentence", {s: "The author was starting the book in his house on the island."}, "Question", {q: "Was the house on a mountain?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 4], "DashedSentence", {s: "The author was writing the book in his house on the island."}, "Question", {q: "Was the house on a mountain?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 4], "DashedSentence", {s: "The author was reading the book in his house on the island."}, "Question", {q: "Was the house on a mountain?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 5], "DashedSentence", {s: "The soldier attempted the mountain as part of his training."}, "Question", {q: "Was he training?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 5], "DashedSentence", {s: "The soldier climbed the mountain as part of his training."}, "Question", {q: "Was he training?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 5], "DashedSentence", {s: "The soldier scaled the mountain as part of his training."}, "Question", {q: "Was he training?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 6], "DashedSentence", {s: "The artist began the portrait in his studio in the city."}, "Question", {q: "Was the studio in the suburbs?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 6], "DashedSentence", {s: "The artist painted the portrait in his studio in the city."}, "Question", {q: "Was the studio in the suburbs?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 6], "DashedSentence", {s: "The artist analyzed the portrait in his studio in the city."}, "Question", {q: "Was the studio in the suburbs?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 7], "DashedSentence", {s: "The doctor expected the report before the patient returned for further tests."}, "Question", {q: "Did the patient return yet?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 7], "DashedSentence", {s: "The doctor received the report before the patient returned for further tests."}, "Question", {q: "Did the patient return yet?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 7], "DashedSentence", {s: "The doctor composed the report before the patient returned for further tests."}, "Question", {q: "Did the patient return yet?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 8], "DashedSentence", {s: "The chef started the dinner long before any guests arrived."}, "Question", {q: "Did he invite guests?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 8], "DashedSentence", {s: "The chef prepared the dinner long before any guests arrived."}, "Question", {q: "Did he invite guests?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 8], "DashedSentence", {s: "The chef ate the dinner long before any guests arrived."}, "Question", {q: "Did he invite guests?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 9], "DashedSentence", {s: "The pilot preferred the biplane with the bright red tail."}, "Question", {q: "Was the tail red?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 9], "DashedSentence", {s: "The pilot flew the biplane with the bright red tail."}, "Question", {q: "Was the tail red?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 9], "DashedSentence", {s: "The pilot landed the biplane with the bright red tail."}, "Question", {q: "Was the tail red?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 10], "DashedSentence", {s: "The composer started the symphony at the concert in the park."}, "Question", {q: "Was the symphony in the park?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 10], "DashedSentence", {s: "The composer wrote the symphony at the concert in the park."}, "Question", {q: "Was the symphony in the park?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 10], "DashedSentence", {s: "The composer directed the symphony at the concert in the park."}, "Question", {q: "Was the symphony in the park?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 11], "DashedSentence", {s: "The receiver tried the door to the basement."}, "Question", {q: "Was the door on the second floor?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 11], "DashedSentence", {s: "The receiver opened the door to the basement."}, "Question", {q: "Was the door on the second floor?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 11], "DashedSentence", {s: "The receiver closed the door to the basement."}, "Question", {q: "Was the door on the second floor?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 12], "DashedSentence", {s: "The customer started the dinner at the new French restaurant."}, "Question", {q: "Was the restaurant French?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 12], "DashedSentence", {s: "The customer ate the dinner at the new French restaurant."}, "Question", {q: "Was the restaurant French?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 12], "DashedSentence", {s: "The customer ordered the dinner at the new French restaurant."}, "Question", {q: "Was the restaurant French?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 13], "DashedSentence", {s: "The nurse preferred the velvet and the jet black silk."}, "Question", {q: "Was the silk red?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 13], "DashedSentence", {s: "The nurse wrote the velvet and the jet black silk."}, "Question", {q: "Was the silk red?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 13], "DashedSentence", {s: "The nurse felt the velvet and the jet black silk."}, "Question", {q: "Was the silk red?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 14], "DashedSentence", {s: "The builder started the house after the last of the snow melted."}, "Question", {q: "Had the snow melted?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 14], "DashedSentence", {s: "The builder built the house after the last of the snow melted."}, "Question", {q: "Had the snow melted?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 14], "DashedSentence", {s: "The builder demolished the house after the last of the snow melted."}, "Question", {q: "Had the snow melted?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 15], "DashedSentence", {s: "The waitress started the coffee before she went home for the night."}, "Question", {q: "Was it morning?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 15], "DashedSentence", {s: "The waitress poured the coffee before she went home for the night."}, "Question", {q: "Was it morning?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 15], "DashedSentence", {s: "The waitress drank the coffee before she went home for the night."}, "Question", {q: "Was it morning?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 16], "DashedSentence", {s: "The writer finished the novel before going on vacation in Mexico."}, "Question", {q: "Was the vacation to Mexico?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 16], "DashedSentence", {s: "The writer wrote the novel before going on vacation in Mexico."}, "Question", {q: "Was the vacation to Mexico?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 16], "DashedSentence", {s: "The writer reviewed the novel before going on vacation in Mexico."}, "Question", {q: "Was the vacation to Mexico?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 17], "DashedSentence", {s: "The composer was attempting the solo before the spring concert."}, "Question", {q: "Was the concert in autumn?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 17], "DashedSentence", {s: "The composer was composing the solo before the spring concert."}, "Question", {q: "Was the concert in autumn?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 17], "DashedSentence", {s: "The composer was singing the solo before the spring concert."}, "Question", {q: "Was the concert in autumn?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 18], "DashedSentence", {s: "The teenager started the novel about things that happened in the high school."}, "Question", {q: "Was the novel about high school?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 18], "DashedSentence", {s: "The teenager read the novel about things that happened in the high school."}, "Question", {q: "Was the novel about high school?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 18], "DashedSentence", {s: "The teenager wrote the novel about things that happened in the high school."}, "Question", {q: "Was the novel about high school?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 19], "DashedSentence", {s: "The dieter resisted the ice cream at her niece's birthday party."}, "Question", {q: "Was the party for a boy?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 19], "DashedSentence", {s: "The dieter ate the ice cream at her niece's birthday party."}, "Question", {q: "Was the party for a boy?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 19], "DashedSentence", {s: "The dieter bought the ice cream at her niece's birthday party."}, "Question", {q: "Was the party for a boy?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 20], "DashedSentence", {s: "The cook savored the spice at the restaurant on the corner."}, "Question", {q: "Was the restaurant nearby?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 20], "DashedSentence", {s: "The cook tasted the spice at the restaurant on the corner."}, "Question", {q: "Was the restaurant nearby?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 20], "DashedSentence", {s: "The cook bought the spice at the restaurant on the corner."}, "Question", {q: "Was the restaurant nearby?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 21], "DashedSentence", {s: "The architect started the house in his studio downtown."}, "Question", {q: "Was the studio uptown?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 21], "DashedSentence", {s: "The architect designed the house in his studio downtown."}, "Question", {q: "Was the studio uptown?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 21], "DashedSentence", {s: "The architect planned the house in his studio downtown."}, "Question", {q: "Was the studio uptown?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 22], "DashedSentence", {s: "The teacher was enjoying the sandwich in the lunch room."}, "Question", {q: "Was she in the lunch room?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 22], "DashedSentence", {s: "The teacher was eating the sandwich in the lunch room."}, "Question", {q: "Was she in the lunch room?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 22], "DashedSentence", {s: "The teacher was serving the sandwich in the lunch room."}, "Question", {q: "Was she in the lunch room?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 23], "DashedSentence", {s: "The professor survived the dentist the other day."}, "Question", {q: "Was it today?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 23], "DashedSentence", {s: "The professor visited the dentist the other day."}, "Question", {q: "Was it today?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 23], "DashedSentence", {s: "The professor advised the dentist the other day."}, "Question", {q: "Was it today?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 24], "DashedSentence", {s: "The diner was starting the meal at the counter in the back."}, "Question", {q: "Was the counter in front?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 24], "DashedSentence", {s: "The diner was eating the meal at the counter in the back."}, "Question", {q: "Was the counter in front?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 24], "DashedSentence", {s: "The diner was making the meal at the counter in the back."}, "Question", {q: "Was the counter in front?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 25], "DashedSentence", {s: "The girl preferred the sandals with the thick leather sole."}, "Question", {q: "Was the sole thin?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 25], "DashedSentence", {s: "The girl wore the sandals with the thick leather sole."}, "Question", {q: "Was the sole thin?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 25], "DashedSentence", {s: "The girl bought the sandals with the thick leather sole."}, "Question", {q: "Was the sole thin?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 26], "DashedSentence", {s: "The worker began the memo to the district managers."}, "Question", {q: "Were they district managers?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 26], "DashedSentence", {s: "The worker read the memo to the district managers."}, "Question", {q: "Were they district managers?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 26], "DashedSentence", {s: "The worker wrote the memo to the district managers."}, "Question", {q: "Were they district managers?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 27], "DashedSentence", {s: "The engineer started the memo late at night in his home office."}, "Question", {q: "Was it nighttime?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 27], "DashedSentence", {s: "The engineer wrote the memo late at night in his home office."}, "Question", {q: "Was it nighttime?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 27], "DashedSentence", {s: "The engineer read the memo late at night in his home office."}, "Question", {q: "Was it nighttime?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 28], "DashedSentence", {s: "The cook started the meal at the restaurant near the river."}, "Question", {q: "Was the restaurant close to the river?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 28], "DashedSentence", {s: "The cook prepared the meal at the restaurant near the river."}, "Question", {q: "Was the restaurant close to the river?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 28], "DashedSentence", {s: "The cook served the meal at the restaurant near the river."}, "Question", {q: "Was the restaurant close to the river?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 29], "DashedSentence", {s: "The student began the book late in the semester."}, "Question", {q: "Was it early in the semester?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 29], "DashedSentence", {s: "The student read the book late in the semester."}, "Question", {q: "Was it early in the semester?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 29], "DashedSentence", {s: "The student wrote the book late in the semester."}, "Question", {q: "Was it early in the semester?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 30], "DashedSentence", {s: "The lawyer preferred the convertible with the yellow racing stripe."}, "Question", {q: "Was the convertible yellow?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["preferred", 30], "DashedSentence", {s: "The lawyer drove the convertible with the yellow racing stripe."}, "Question", {q: "Was the convertible yellow?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["dispreferred", 30], "DashedSentence", {s: "The lawyer parked the convertible with the yellow racing stripe."}, "Question", {q: "Was the convertible yellow?", hasTrue: "Yes", as: ["Yes","No"]}]
-[["coercion", 31], "DashedSentence", {s: "The pupil started the test in the chemistry lab."}, "Question", {q: "Was the pupil in the biology lab?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 31], "DashedSentence", {s: "The pupil took the test in the chemistry lab."}, "Question", {q: "Was the pupil in the biology lab?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 31], "DashedSentence", {s: "The pupil wrote the test in the chemistry lab."}, "Question", {q: "Was the pupil in the biology lab?", hasTrue: "No", as: ["Yes","No"]}]
-[["coercion", 32], "DashedSentence", {s: "The pianist began the symphony in a nearly empty concert hall."}, "Question", {q: "Was the concert hall full?", hasTrue: "No", as: ["Yes","No"]}]
-[["preferred", 32], "DashedSentence", {s: "The pianist played the symphony in a nearly empty concert hall."}, "Question", {q: "Was the concert hall full?", hasTrue: "No", as: ["Yes","No"]}]
-[["dispreferred", 32], "DashedSentence", {s: "The pianist composed the symphony in a nearly empty concert hall."}, "Question", {q: "Was the concert hall full?", hasTrue: "No", as: ["Yes","No"]}]
+     	[["coercion", 1], "DashedSentence", {s: "The surfer endured the tuxedo but felt very uncomfortable."}, 
+                          "Question", {q: "The surfer was…", hasCorrect: "uncomfortable", as: ["comfortable","uncomfortable","ambivalent"]}],
+	[["preferred", 1], "DashedSentence", {s: "The surfer wore the tuxedo but felt very uncomfortable."}, 
+                          "Question", {q: "The surfer was…", hasCorrect: "uncomfortable", as: ["comfortable","uncomfortable","ambivalent"]}],
+	[["dispreferred", 1], "DashedSentence", {s: "The surfer rented the tuxedo but felt very uncomfortable."}, 
+                          "Question", {q: "The surfer was…", hasCorrect: "uncomfortable", as: ["comfortable","uncomfortable","ambivalent"]}],
+	[["coercion", 2], "DashedSentence", {s: "The secretary began the memo before the annual sales conference."}, 
+                          "Question", {q: "The conference was…", hasCorrect: "a sales conference", as: ["a medical conference","a sales conference","an advertising conference"]}],
+	[["preferred", 2], "DashedSentence", {s: "The secretary typed the memo before the annual sales conference."}, 
+                          "Question", {q: "The conference was…", hasCorrect: "a sales conference", as: ["a medical conference","a sales conference","an advertising conference"]}],
+	[["dispreferred", 2], "DashedSentence", {s: "The secretary read the memo before the annual sales conference."}, 
+                          "Question", {q: "The conference was…", hasCorrect: "a sales conference", as: ["a medical conference","a sales conference","an advertising conference"]}],
+	[["coercion", 3], "DashedSentence", {s: "The pilot mastered the airplane and moved on to the helicopter."}, 
+                          "Question", {q: "The pilot first flew…", hasCorrect: "the plane", as: ["the helicopter","the blimp","the plane"]}],
+	[["preferred", 3], "DashedSentence", {s: "The pilot flew the airplane and moved on to the helicopter."}, 
+                          "Question", {q: "The pilot first flew…", hasCorrect: "the plane", as: ["the helicopter","the blimp","the plane"]}],
+	[["dispreferred", 3], "DashedSentence", {s: "The pilot landed the airplane and moved on to the helicopter."}, 
+                          "Question", {q: "The pilot first flew…", hasCorrect: "the plane", as: ["the helicopter","the blimp","the plane"]}],
+	[["coercion", 4], "DashedSentence", {s: "The author was starting the book in his house on the island."}, 
+                          "Question", {q: "His house was…", hasCorrect: "on the island", as: ["in the valley","on the island","on the mountain"]}],
+	[["preferred", 4], "DashedSentence", {s: "The author was writing the book in his house on the island."}, 
+                          "Question", {q: "His house was…", hasCorrect: "on the island", as: ["in the valley","on the island","on the mountain"]}],
+	[["dispreferred", 4], "DashedSentence", {s: "The author was reading the book in his house on the island."}, 
+                          "Question", {q: "His house was…", hasCorrect: "on the island", as: ["in the valley","on the island","on the mountain"]}],
+	[["coercion", 5], "DashedSentence", {s: "The soldier attempted the mountain as part of his training."}, 
+                          "Question", {q: "The soldier was…", hasCorrect: "training", as: ["reading","relaxing","training"]}],
+	[["preferred", 5], "DashedSentence", {s: "The soldier climbed the mountain as part of his training."}, 
+                          "Question", {q: "The soldier was…", hasCorrect: "training", as: ["reading","relaxing","training"]}],
+	[["dispreferred", 5], "DashedSentence", {s: "The soldier scaled the mountain as part of his training."}, 
+                          "Question", {q: "The soldier was…", hasCorrect: "training", as: ["reading","relaxing","training"]}],
+	[["coercion", 6], "DashedSentence", {s: "The artist began the portrait in his studio in the city."}, 
+                          "Question", {q: "The studio was…", hasCorrect: "in the city", as: ["in the city","in the woods","in the suburbs"]}],
+	[["preferred", 6], "DashedSentence", {s: "The artist painted the portrait in his studio in the city."}, 
+                          "Question", {q: "The studio was…", hasCorrect: "in the city", as: ["in the city","in the woods","in the suburbs"]}],
+	[["dispreferred", 6], "DashedSentence", {s: "The artist analyzed the portrait in his studio in the city."}, 
+                          "Question", {q: "The studio was…", hasCorrect: "in the city", as: ["in the city","in the woods","in the suburbs"]}],
+	[["coercion", 7], "DashedSentence", {s: "The doctor expected the report before the patient returned for further tests."}, 
+                          "Question", {q: "The patient needed…", hasCorrect: "further tests", as: ["further tests","surgery","medication"]}],
+	[["preferred", 7], "DashedSentence", {s: "The doctor received the report before the patient returned for further tests."}, 
+                          "Question", {q: "The patient needed…", hasCorrect: "further tests", as: ["further tests","surgery","medication"]}],
+	[["dispreferred", 7], "DashedSentence", {s: "The doctor composed the report before the patient returned for further tests."}, 
+                          "Question", {q: "The patient needed…", hasCorrect: "further tests", as: ["further tests","surgery","medication"]}],
+	[["coercion", 8], "DashedSentence", {s: "The chef started the dinner long before any guests arrived."}, 
+                          "Question", {q: "The chef had…", hasCorrect: "guests", as: ["guests","family","problems"]}],
+	[["preferred", 8], "DashedSentence", {s: "The chef prepared the dinner long before any guests arrived."}, 
+                          "Question", {q: "The chef had…", hasCorrect: "guests", as: ["guests","family","problems"]}],
+	[["dispreferred", 8], "DashedSentence", {s: "The chef ate the dinner long before any guests arrived."}, 
+                          "Question", {q: "The chef had…", hasCorrect: "guests", as: ["guests","family","problems"]}],
+	[["coercion", 9], "DashedSentence", {s: "The pilot preferred the biplane with the bright red tail."}, 
+                          "Question", {q: "The tail of the biplane was…", hasCorrect: "red", as: ["blue","orange","red"]}],
+	[["preferred", 9], "DashedSentence", {s: "The pilot flew the biplane with the bright red tail."}, 
+                          "Question", {q: "The tail of the biplane was…", hasCorrect: "red", as: ["blue","orange","red"]}],
+	[["dispreferred", 9], "DashedSentence", {s: "The pilot landed the biplane with the bright red tail."}, 
+                          "Question", {q: "The tail of the biplane was…", hasCorrect: "red", as: ["blue","orange","red"]}],
+	[["coercion", 10], "DashedSentence", {s: "The composer started the symphony at the concert in the park."}, 
+                          "Question", {q: "The concert was…", hasCorrect: "in the park", as: ["in the park","on 5th Ave","by the lake"]}],
+	[["preferred", 10], "DashedSentence", {s: "The composer wrote the symphony at the concert in the park."}, 
+                          "Question", {q: "The concert was…", hasCorrect: "in the park", as: ["in the park","on 5th Ave","by the lake"]}],
+	[["dispreferred", 10], "DashedSentence", {s: "The composer directed the symphony at the concert in the park."}, 
+                          "Question", {q: "The concert was…", hasCorrect: "in the park", as: ["in the park","on 5th Ave","by the lake"]}],
+	[["coercion", 11], "DashedSentence", {s: "The receiver tried the door to the basement."}, 
+                          "Question", {q: "The door was…", hasCorrect: "to the basement", as: ["to the basement","to the attic","on the second floor"]}],
+	[["preferred", 11], "DashedSentence", {s: "The receiver opened the door to the basement."}, 
+                          "Question", {q: "The door was…", hasCorrect: "to the basement", as: ["to the basement","to the attic","on the second floor"]}],
+	[["dispreferred", 11], "DashedSentence", {s: "The receiver closed the door to the basement."}, 
+                          "Question", {q: "The door was…", hasCorrect: "to the basement", as: ["to the basement","to the attic","on the second floor"]}],
+	[["coercion", 12], "DashedSentence", {s: "The customer started the dinner at the new French restaurant."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "French", as: ["Chinese","French","Mexican"]}],
+	[["preferred", 12], "DashedSentence", {s: "The customer ate the dinner at the new French restaurant."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "French", as: ["Chinese","French","Mexican"]}],
+	[["dispreferred", 12], "DashedSentence", {s: "The customer ordered the dinner at the new French restaurant."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "French", as: ["Chinese","French","Mexican"]}],
+	[["coercion", 13], "DashedSentence", {s: "The nurse preferred the velvet and the jet black silk."}, 
+                          "Question", {q: "The color of the silk was…", hasCorrect: "jet black", as: ["rose pink","jet black","baby blue"]}],
+	[["preferred", 13], "DashedSentence", {s: "The nurse wore the velvet and the jet black silk."}, 
+                          "Question", {q: "The color of the silk was…", hasCorrect: "jet black", as: ["rose pink","jet black","baby blue"]}],
+	[["dispreferred", 13], "DashedSentence", {s: "The nurse felt the velvet and the jet black silk."}, 
+                          "Question", {q: "The color of the silk was…", hasCorrect: "jet black", as: ["rose pink","jet black","baby blue"]}],
+	[["coercion", 14], "DashedSentence", {s: "The builder started the house after the last of the snow melted."}, 
+                          "Question", {q: "The builder worked on…", hasCorrect: "the house", as: ["the blueprints","the apartment","the house"]}],
+	[["preferred", 14], "DashedSentence", {s: "The builder built the house after the last of the snow melted."}, 
+                          "Question", {q: "The builder worked on…", hasCorrect: "the house", as: ["the blueprints","the apartment","the house"]}],
+	[["dispreferred", 14], "DashedSentence", {s: "The builder demolished the house after the last of the snow melted."}, 
+                          "Question", {q: "The builder worked on…", hasCorrect: "the house", as: ["the blueprints","the apartment","the house"]}],
+	[["coercion", 15], "DashedSentence", {s: "The waitress started the coffee before she went home for the night."}, 
+                          "Question", {q: "The waitress went…", hasCorrect: "home", as: ["home","to the grocery store","to the dentist"]}],
+	[["preferred", 15], "DashedSentence", {s: "The waitress poured the coffee before she went home for the night."}, 
+                          "Question", {q: "The waitress went…", hasCorrect: "home", as: ["home","to the grocery store","to the dentist"]}],
+	[["dispreferred", 15], "DashedSentence", {s: "The waitress drank the coffee before she went home for the night."}, 
+                          "Question", {q: "The waitress went…", hasCorrect: "home", as: ["home","to the grocery store","to the dentist"]}],
+	[["coercion", 16], "DashedSentence", {s: "The writer finished the novel before going on vacation in Mexico."}, 
+                          "Question", {q: "The vacation was…", hasCorrect: "in Mexico", as: ["in Mexico","in Italy","in Germany"]}],
+	[["preferred", 16], "DashedSentence", {s: "The writer wrote the novel before going on vacation in Mexico."}, 
+                          "Question", {q: "The vacation was…", hasCorrect: "in Mexico", as: ["in Mexico","in Italy","in Germany"]}],
+	[["dispreferred", 16], "DashedSentence", {s: "The writer reviewed the novel before going on vacation in Mexico."}, 
+                          "Question", {q: "The vacation was…", hasCorrect: "in Mexico", as: ["in Mexico","in Italy","in Germany"]}],
+	[["coercion", 17], "DashedSentence", {s: "The composer was attempting the solo before the spring concert."}, 
+                          "Question", {q: "The concert was…", hasCorrect: "in spring", as: ["in fall","in spring","in winter"]}],
+	[["preferred", 17], "DashedSentence", {s: "The composer was composing the solo before the spring concert."}, 
+                          "Question", {q: "The concert was…", hasCorrect: "in spring", as: ["in fall","in spring","in winter"]}],
+	[["dispreferred", 17], "DashedSentence", {s: "The composer was singing the solo before the spring concert."}, 
+                          "Question", {q: "The concert was…", hasCorrect: "in spring", as: ["in fall","in spring","in winter"]}],
+	[["coercion", 18], "DashedSentence", {s: "The teenager started the novel about things that happened in the high school."}, 
+                          "Question", {q: "The novel was….", hasCorrect: "about high school", as: ["about religion","about retirement","about high school"]}],
+	[["preferred", 18], "DashedSentence", {s: "The teenager read the novel about things that happened in the high school."}, 
+                          "Question", {q: "The novel was….", hasCorrect: "about high school", as: ["about religion","about retirement","about high school"]}],
+	[["dispreferred", 18], "DashedSentence", {s: "The teenager wrote the novel about things that happened in the high school."}, 
+                          "Question", {q: "The novel was….", hasCorrect: "about high school", as: ["about religion","about retirement","about high school"]}],
+	[["coercion", 19], "DashedSentence", {s: "The dieter resisted the ice cream at her niece's birthday party."}, 
+                          "Question", {q: "The party was…", hasCorrect: "for a niece", as: ["for a husband","for a brother","for a niece"]}],
+	[["preferred", 19], "DashedSentence", {s: "The dieter ate the ice cream at her niece's birthday party."}, 
+                          "Question", {q: "The party was…", hasCorrect: "for a niece", as: ["for a husband","for a brother","for a niece"]}],
+	[["dispreferred", 19], "DashedSentence", {s: "The dieter bought the ice cream at her niece's birthday party."}, 
+                          "Question", {q: "The party was…", hasCorrect: "for a niece", as: ["for a husband","for a brother","for a niece"]}],
+	[["coercion", 20], "DashedSentence", {s: "The cook savored the spice at the restaurant on the corner."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "on the corner", as: ["on the terrace","by the deli","on the corner"]}],
+	[["preferred", 20], "DashedSentence", {s: "The cook tasted the spice at the restaurant on the corner."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "on the corner", as: ["on the terrace","by the deli","on the corner"]}],
+	[["dispreferred", 20], "DashedSentence", {s: "The cook bought the spice at the restaurant on the corner."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "on the corner", as: ["on the terrace","by the deli","on the corner"]}],
+	[["coercion", 21], "DashedSentence", {s: "The architect started the house in his studio downtown."}, 
+                          "Question", {q: "The studio was…", hasCorrect: "downtown", as: ["uptown","downtown","five miles away"]}],
+	[["preferred", 21], "DashedSentence", {s: "The architect designed the house in his studio downtown."}, 
+                          "Question", {q: "The studio was…", hasCorrect: "downtown", as: ["uptown","downtown","five miles away"]}],
+	[["dispreferred", 21], "DashedSentence", {s: "The architect planned the house in his studio downtown."}, 
+                          "Question", {q: "The studio was…", hasCorrect: "downtown", as: ["uptown","downtown","five miles away"]}],
+	[["coercion", 22], "DashedSentence", {s: "The teacher was enjoying the sandwich in the lunch room."}, 
+                          "Question", {q: "The teacher had…", hasCorrect: "a sandwich", as: ["five carrots","a sandwich","some soup"]}],
+	[["preferred", 22], "DashedSentence", {s: "The teacher was eating the sandwich in the lunch room."}, 
+                          "Question", {q: "The teacher had…", hasCorrect: "a sandwich", as: ["five carrots","a sandwich","some soup"]}],
+	[["dispreferred", 22], "DashedSentence", {s: "The teacher was serving the sandwich in the lunch room."}, 
+                          "Question", {q: "The teacher had…", hasCorrect: "a sandwich", as: ["five carrots","a sandwich","some soup"]}],
+	[["coercion", 23], "DashedSentence", {s: "The professor survived the dentist the other day."}, 
+                          "Question", {q: "The professor met the dentist…", hasCorrect: "the other day", as: ["five years ago","the other day","last Tuesday"]}],
+	[["preferred", 23], "DashedSentence", {s: "The professor visited the dentist the other day."}, 
+                          "Question", {q: "The professor met the dentist…", hasCorrect: "the other day", as: ["five years ago","the other day","last Tuesday"]}],
+	[["dispreferred", 23], "DashedSentence", {s: "The professor advised the dentist the other day."}, 
+                          "Question", {q: "The professor met the dentist…", hasCorrect: "the other day", as: ["five years ago","the other day","last Tuesday"]}],
+	[["coercion", 24], "DashedSentence", {s: "The diner was starting the meal at the counter in the back."}, 
+                          "Question", {q: "The counter was…", hasCorrect: "in the back", as: ["near the register","in the back","by the front"]}],
+	[["preferred", 24], "DashedSentence", {s: "The diner was eating the meal at the counter in the back."}, 
+                          "Question", {q: "The counter was…", hasCorrect: "in the back", as: ["near the register","in the back","by the front"]}],
+	[["dispreferred", 24], "DashedSentence", {s: "The diner was making the meal at the counter in the back."}, 
+                          "Question", {q: "The counter was…", hasCorrect: "in the back", as: ["near the register","in the back","by the front"]}],
+	[["coercion", 25], "DashedSentence", {s: "The girl preferred the sandals with the thick leather sole."}, 
+                          "Question", {q: "The sole was…", hasCorrect: "thick", as: ["rubber","thick","thin"]}],
+	[["preferred", 25], "DashedSentence", {s: "The girl wore the sandals with the thick leather sole."}, 
+                          "Question", {q: "The sole was…", hasCorrect: "thick", as: ["rubber","thick","thin"]}],
+	[["dispreferred", 25], "DashedSentence", {s: "The girl bought the sandals with the thick leather sole."}, 
+                          "Question", {q: "The sole was…", hasCorrect: "thick", as: ["rubber","thick","thin"]}],
+	[["coercion", 26], "DashedSentence", {s: "The worker began the memo to the district managers."}, 
+                          "Question", {q: "The worker had…", hasCorrect: "the memo", as: ["the contract","the memo","the novel"]}],
+	[["preferred", 26], "DashedSentence", {s: "The worker read the memo to the district managers."}, 
+                          "Question", {q: "The worker had…", hasCorrect: "the memo", as: ["the contract","the memo","the novel"]}],
+	[["dispreferred", 26], "DashedSentence", {s: "The worker wrote the memo to the district managers."}, 
+                          "Question", {q: "The worker had…", hasCorrect: "the memo", as: ["the contract","the memo","the novel"]}],
+	[["coercion", 27], "DashedSentence", {s: "The engineer started the memo late at night in his home office."}, 
+                          "Question", {q: "The engineer worked…", hasCorrect: "late at night", as: ["in the afternoon","at dawn","late at night"]}],
+	[["preferred", 27], "DashedSentence", {s: "The engineer wrote the memo late at night in his home office."}, 
+                          "Question", {q: "The engineer worked…", hasCorrect: "late at night", as: ["in the afternoon","at dawn","late at night"]}],
+	[["dispreferred", 27], "DashedSentence", {s: "The engineer read the memo late at night in his home office."}, 
+                          "Question", {q: "The engineer worked…", hasCorrect: "late at night", as: ["in the afternoon","at dawn","late at night"]}],
+	[["coercion", 28], "DashedSentence", {s: "The cook started the meal at the restaurant near the river."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "near the river", as: ["at the wharf","by the docks","near the river"]}],
+	[["preferred", 28], "DashedSentence", {s: "The cook prepared the meal at the restaurant near the river."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "near the river", as: ["at the wharf","by the docks","near the river"]}],
+	[["dispreferred", 28], "DashedSentence", {s: "The cook served the meal at the restaurant near the river."}, 
+                          "Question", {q: "The restaurant was…", hasCorrect: "near the river", as: ["at the wharf","by the docks","near the river"]}],
+	[["coercion", 29], "DashedSentence", {s: "The student began the book late in the semester."}, 
+                          "Question", {q: "It was…", hasCorrect: "late in the semester", as: ["11 pm","late in the semester","January 1st"]}],
+	[["preferred", 29], "DashedSentence", {s: "The student read the book late in the semester."}, 
+                          "Question", {q: "It was…", hasCorrect: "late in the semester", as: ["11 pm","late in the semester","January 1st"]}],
+	[["dispreferred", 29], "DashedSentence", {s: "The student wrote the book late in the semester."}, 
+                          "Question", {q: "It was…", hasCorrect: "late in the semester", as: ["11 pm","late in the semester","January 1st"]}],
+	[["coercion", 30], "DashedSentence", {s: "The lawyer preferred the convertible with the yellow racing stripe."}, 
+                          "Question", {q: "The convertible stripe was…", hasCorrect: "yellow", as: ["green","purple","yellow"]}],
+	[["preferred", 30], "DashedSentence", {s: "The lawyer drove the convertible with the yellow racing stripe."}, 
+                          "Question", {q: "The convertible stripe was…", hasCorrect: "yellow", as: ["green","purple","yellow"]}],
+	[["dispreferred", 30], "DashedSentence", {s: "The lawyer parked the convertible with the yellow racing stripe."}, 
+                          "Question", {q: "The convertible stripe was…", hasCorrect: "yellow", as: ["green","purple","yellow"]}],
+	[["coercion", 31], "DashedSentence", {s: "The pupil started the test in the chemistry lab."}, 
+                          "Question", {q: "The test was in", hasCorrect: "the chemistry lab", as: ["biology class","math class","the chemistry lab"]}],
+	[["preferred", 31], "DashedSentence", {s: "The pupil took the test in the chemistry lab."}, 
+                          "Question", {q: "The test was in", hasCorrect: "the chemistry lab", as: ["biology class","math class","the chemistry lab"]}],
+	[["dispreferred", 31], "DashedSentence", {s: "The pupil wrote the test in the chemistry lab."}, 
+                          "Question", {q: "The test was in", hasCorrect: "the chemistry lab", as: ["biology class","math class","the chemistry lab"]}],
+	[["coercion", 32], "DashedSentence", {s: "The pianist began the symphony in a nearly empty concert hall."}, 
+                          "Question", {q: "The concert hall was…", hasCorrect: "nearly empty", as: ["nearly empty","chilly","completely full"]}],
+	[["preferred", 32], "DashedSentence", {s: "The pianist played the symphony in a nearly empty concert hall."}, 
+                          "Question", {q: "The concert hall was…", hasCorrect: "nearly empty", as: ["nearly empty","chilly","completely full"]}],
+	[["dispreferred", 32], "DashedSentence", {s: "The pianist composed the symphony in a nearly empty concert hall."}, 
+                          "Question", {q: "The concert hall was…", hasCorrect: "nearly empty", as: ["nearly empty","chilly","completely full"]}]
 
-    ];
-    
+];

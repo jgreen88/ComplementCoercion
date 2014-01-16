@@ -3,49 +3,49 @@ from string import Template
 from optparse import OptionParser
 
 exp_template = lambda items: Template('''
-    var shuffleSequence = seq("consent", "intro", "practice", "begin", sepWith("sep", rshuffle("coercion", "preferred", "dispreferred")), "sr", "debrief");
-    var practiceItemTypes = ["practice"];
+var shuffleSequence = seq("consent", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
+var practiceItemTypes = ["practice"];
 
-    var defaults = [
-        "Separator", {
-            transfer: 500,
-            hideProgressBar: true,
-            normalMessage: "+"
-        },
-        "Message", {
-            transfer: "keypress",
-            hideProgressBar: true
-        },
-        "Form", { hideProgressBar: true }
+var defaults = [
+    "Separator", {
+        transfer: 500,
+        hideProgressBar: true,
+        normalMessage: "+"
+    },
+    "Message", {
+        transfer: "keypress",
+        hideProgressBar: true
+    },
+    "Form", { hideProgressBar: true }
 
-    ];
+];
 
-    var items = [
-            ["consent", "Form", {
-            html: { include: "consent.html" },
-                    validators: {age: function (s) { if (s.match(/^\d+$$/)) return true;
-                                                            else return "Bad value for age"; }}
-        } ],
+var items = [
+        ["consent", "Form", {
+        html: { include: "consent.html" },
+                validators: {age: function (s) { if (s.match(/^\d+$$/)) return true;
+                                                        else return "Bad value for age"; }}
+    } ],
 
-            ["intro", "Message", {html: { include: "intro.html" }}],
+        ["intro", "Message", {html: { include: "intro.html" }}],
 
-            ["practice", "DashedSentence", {s: "Gary ran quickly to the minimart to get milk."},
-                         "Question",       {q: 'Did Gary run slowly?', as: ['Yes', 'No']}],
-            ["practice", "DashedSentence", {s: "Stacy built a house out of mud and straw."},
-                         "Question",       {q: 'Did Stacy use mud?', as: ['Yes', 'No']}],],
-            ["practice", "DashedSentence", {s: "Bill ate five veggie burgers in one hour."},
-                         "Question",       {q: 'Did Bill eat turkey burgers?', as: ['Yes', 'No']}],],
+        ["practice", "DashedSentence", {s: "Gary ran quickly to a minimart to get milk."},
+                     "Question",       {q: "Where did Gary run?", hasCorrect:"a minimart",  as: ["a minimart", "a dairy", "a wine store"]}],
+        ["practice", "DashedSentence", {s: "Stacy built a house out of mud."},
+                     "Question",       {q: 'What did Stacy build her house out of?', hasCorrect: "mud",  as: ["straw", "mud", "wood"]}],],
+        ["practice", "DashedSentence", {s: "Bill ate five veggie burgers in one hour."},
+                     "Question",       {q: "What kind of burgers did Bill eat?", hasCorrect: "veggie",  as: ["veggie", "turkey", "beef"]}],],
 
-            ["begin", "Message", {
-                                    html: { include: "begin.html" },
-                                    } ],
+        ["begin", "Message", {
+                                html: { include: "begin.html" },
+                                } ],
 
         ["sep", "Separator", { }],
 
-        $items
+     $items
 
-    ];
-    ''').substitute(items=items)
+];
+''').substitute(items=items)
 
 
 
@@ -68,7 +68,6 @@ class Experiment(object):
             if i == 0:
                 sentence_list = [sentence]
             elif not i % 3:
-                print sentence_list
                 item = DashedSentence(sentence_list)
                 items_list.append(item)
 
@@ -106,7 +105,7 @@ class Experiment(object):
             controller_str = sentence.create_controllers(self.questions[i], groups[i])
             controller_strings.append(controller_str)
             
-        return '\n'.join(controller_strings)
+        return ',\n'.join(controller_strings)
 
 
     def _create_experiment(self):
@@ -136,7 +135,8 @@ class DashedSentence(object):
         controller_str_list = []
 
         for i, sentence in enumerate(self.sentence_list):
-            template = Template('[["$cond", $group], "DashedSentence", {s: "$sentence"}, $question]')
+            template = Template('''\t[["$cond", $group], "DashedSentence", {s: "$sentence"}, 
+                          $question]''')
             controller_str = template.substitute(cond=conditions[i], 
                                                  group=group,
                                                  sentence=sentence, 
@@ -145,7 +145,7 @@ class DashedSentence(object):
 
             controller_str_list.append(controller_str)
 
-        return '\n'.join(controller_str_list)
+        return ',\n'.join(controller_str_list)
             
 
 class Question(object):
@@ -162,7 +162,10 @@ class Question(object):
         self.answer = answer_set[0]
 
         if len(answer_set) > 1:
-            self.answer_set = ['"{}"'.format(ans) for ans in answer_set]
+            answer_set_formatted = ['"{}"'.format(ans) for ans in answer_set]
+            shuffle(answer_set_formatted)
+
+            self.answer_set = answer_set_formatted
     
         elif self.answer.lower() in ['yes', 'no']:
             self.answer_set = ['"Yes"', '"No"']
@@ -171,7 +174,7 @@ class Question(object):
     def create_controller(self):
         answer_set_str = ','.join(self.answer_set)
 
-        template = Template('"Question", {q: "$question", hasTrue: "$answer", as: [$possible]}')
+        template = Template('"Question", {q: "$question", hasCorrect: "$answer", as: [$possible]}')
         
         return template.substitute(question=self.question, answer=self.answer, possible=answer_set_str)
     
