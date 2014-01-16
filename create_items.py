@@ -5,6 +5,7 @@ from optparse import OptionParser
 exp_template = lambda items: Template('''
 var shuffleSequence = seq("consent", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
 var practiceItemTypes = ["practice"];
+var manualSendResults = true;
 
 var defaults = [
     "Separator", {
@@ -29,6 +30,8 @@ var items = [
 
         ["intro", "Message", {html: { include: "intro.html" }}],
 
+        ["sr", "__SendResults__", { }],
+
         ["practice", "DashedSentence", {s: "Gary ran quickly to a minimart to get milk."},
                      "Question",       {q: "Where did Gary run?", hasCorrect:"a minimart",  as: ["a minimart", "a dairy", "a wine store"]}],
         ["practice", "DashedSentence", {s: "Stacy built a house out of mud."},
@@ -43,7 +46,6 @@ var items = [
         ["sep", "Separator", { }],
 
      $items
-
 ];
 ''').substitute(items=items)
 
