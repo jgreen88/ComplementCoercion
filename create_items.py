@@ -15,7 +15,6 @@ var defaults = [
         errorMessage: "incorrect",
     },
     "Message", {
-        transfer: "keypress",
         hideProgressBar: true
     },
     "Form", { hideProgressBar: true }
