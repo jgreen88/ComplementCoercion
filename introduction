@@ -1,209 +1,36 @@
-instruct {Welcome.
+<p> Welcome. </p>
 
-In this experiment you will be asked to read some sentences.
+<p> In this experiment you will be asked to read some sentences. </p>
 
-First you will see some lines like this:
- _____ _______ ________ ___________ _____________ __________
+<p> First you will see some lines like this:
+ <br> _____ _______ ________ ___________ _____________ __________
 
-These dashes are covering the words in the sentence.  When you press the space bar, the first word will appear.  With every press of the space bar, a new word will appear.
+<br> These dashes are covering the words in the sentence.  When you press the space bar, the first word will appear.  With every press of the space bar, a new word will appear. </p>
 
 
-You should try to read as naturally as possible, making sure that you understand what you read.
+<p> You should try to read as naturally as possible, making sure that you understand what you read. </p>
 
-You will then be asked a question about the sentence you just read. You can answer "YES" or "NO" to the question.
+<p> You will then be asked to complete a sentence describing what you just read. </p> 
 
-Press ``f'' to answer ``YES''. Press ``j'' to answer ``NO''.
+<p> Press ``1'' to pick the first continuation. Press ``2'' to pick the second continuation. Press ``3'' to pick the third continuation. </p> 
 
-You will be reminded which key is yes and which is no.  Try to answer as quickly and accurately as possible.
+<p> Try to answer as quickly and accurately as possible. </p> 
 
-If you are unsure of the answer (or if you think that both answers are right), try to pick the better answer.
+<p> If you are unsure of the response (or if you think that more than one is right), try to pick the best answer. </p> 
 
-To be able to read and answer quickly, you should keep your fingers resting on the space bar and the "F" and "J" keys, so that you don't have to look down at the keys to answer. You can use whichever hand is most comfortable for you to press the keys, or use both hands if you like.
+<p> To be able to read and answer quickly, you should keep one hand resting over the space bar and the other hand hand resting over the ``1'', ``2'', and ``3'' keys, so that you don't have to look down at the keys to answer. You can use whichever hand is most comfortable for you to press the whichever keys, but use both hands. </p> 
 
-}
 
-instruct {You can take breaks as you need them, but please try to do so before you've started reading a new item, when the screen just shows dashes.
 
-That's all there is to it.  Just to review, this is how the experiment goes:
+<p> That's all there is to it.  Just to review, this is how the experiment goes: 
 
-1. Some dashes will appear on the screen and you must press the space bar to see each new word of the sentence. 
+<br> 1. Some dashes will appear on the screen and you must press the space bar to see each new word of the sentence. 
 
-2. Read at a natural rate, comprehending what you read.  Don't read out loud unless that's the way you normally read.
+<br> 2. Read at a natural rate, comprehending what you read.  Don't read out loud unless that's the way you normally read.
 
-3. You'll see a question about the sentence and should answer by pressing the "F" key for YES or the "J" key for NO.  You will be told if your answer was incorrect.  You should take this as an indication to read more slowly and carefully.
+<br> 3. You'll see a multiple-choice question about the sentence and you should answer by pressing either the ``1'' key, the ``2'' key, or the ``3'' key, depending on what you think the right answer is.  You will be told if your answer was incorrect.  You should take this as an indication to read more slowly and carefully.
 
-4. After the question, the computer will automatically go on to the next sentence.
+<br> 4. After the question, the computer will automatically go on to the next sentence. 
 
-When the experiment is over, a screen will appear telling you to stop.  At that point, you should let the experimenter know you are finished.
+When the experiment is over, a screen will appear telling you to stop.  At that point, you you are finished! </p>
 
-If you have any questions about the procedure, ask the experimenter now.
-}
-
-instruct {To get warmed up, let's just read some sentences with all of the words presented. We will then practice with some items more like those in the actual experiment.
-}
-
-instruct {In the experiment, you will read a lot of different types of sentences.
-
-Some will be quite simple, like
-
-
-
-"The children decorated the tree with sparkling ornaments."
-
-
-
-
-
-
-
-
-Others might sound a little odd:
-
-
-
-"The children decorated the sparkling ornaments onto the tree."
-
-}
-
-instruct {Some sentences may sound just fine, but they might mean something goofy.
-
-
-
-"The purple elephant played chess with the balding porcupines."
-
-
-
-Though purple elephants do not exist, the sentence above may sound perfectly fine in a children's book.
-
-
-
-
-
-
-
-
-The sentences may also sound rather formal, like something you would read in the news:
-
-
-"The bills that no senators voted for will ever become law."
-
-}
-
-instruct {There will also be sentences that just sound bad. Try to answer the questions about these sentences the best you can.
-
-
-
-"No gyms that are frequented by the famous bodybuilders contain any rusty machinery."
-
-
-
-
-
-"The barber that is so busy every day he wanted to give himself any break."
-
-}
-
-instruct {Others may be rather long. Despite their length, they are still good sentences, and you want to try to understand what they mean. Remember, you'll have to answer questions about the sentences.
-
-
-
-For example, the following sentences may be long, but they are meaningful. Your job is to make sure that you understand what you read.
-
-
-
-
-"The scientists's theory that water can be found on the moon was ever believed by the public until recently."
-
-
-
-
-
-"No journalist's assessment that the radical protesters could actually overtake the government was believed by the politicians."
-
-
-
-
-
-"The politicians's belief that no candidate from the east coast could win the election was believed by the citizens."
-
-}
-command {Let's now practice clicking through some sentences...
-
-
-
-Remember: Dashes are covering the words in the sentence.  When you press the space bar, the first word will appear.  With every press of the space bar, a new word will appear.
-
-You should try to read as naturally as possible, making sure that you understand what you read.
-
-
-
-When there is a YES/NO question after the sentence: 
-
-Press ``f'' to answer ``YES''. Press ``j'' to answer ``NO''.
-
-Try to answer as quickly and accurately as possible.
-
-}
-
-createItem {# practice 1 x
-This is a practice sentence to help you get used to the speed of presentation.
-}
-presentItem practice:1:x
-
-createItem {# practice 2 x
-This practice sentence will be followed by a question, to make sure you are following along.
-? Did you follow that alright? Y
-}
-presentItem practice:2:x
-
-command {Now let's try some sentences more like those in the experiment...}
-
-createItem {# practice 3 x 
-The researcher's hunch that a significant difference would be seen in the data was taken seriously by the journal reviewers.
-? Did the journal reviewers ignore the researchers' hunch? N
-}
-presentItem practice:3:x
-
-createItem {# practice 4 x
-The geologist's premonition that high levels of acid rain would cause the mountain to erode was debated by the conservationists. 
-? Did the conservationists debate the geologists' premonitions? Y
-}
-presentItem practice:4:x
-
-createItem {# practice 5 x 
-The senator's opinion that no farm subsidies could stimulate the economy was ever strongly disputed in the debate.
-? Did the senators have an opinion about the farm subsidies? Y
-}
-presentItem practice:5:x
-
-createItem {# practice 6 x 
-No environmentalist's conjecture that the local wildlife would be affected by the oil spill was discussed with the Coast Guard.
-? Did the coastguard discuss the environmentalists' conjecture? N
-}
-presentItem practice:6:x
-
-createItem {# practice 7 x 
-The albums that the crazy fans bought last summer have ever had explicit lyrics. 
-? Did the crazy fans buy any albums last summer? Y
-}
-presentItem practice:7:x
-
-createItem {# practice 8 x 
-The farmer's admission that no food additives are necessary to preserve freshness was confirmed by the Food Safety Administration.
-? Did the farmers admit that food additives are necessary to preserve freshness? N
-}
-presentItem practice:8:x
-
-createItem {# practice 9 x 
-No conservationist's admission that an energy shortage would be caused by the new drilling technique was ever questioned by the committee.
-? Will the new technique cause an energy shortage? Y
-}
-presentItem practice:9:x
-
-instruct {That's it for the practice. 
-
-If you have any questions or concerns, ask the experimenter now.
-
-Otherwise, you may begin the experiment.}
-
-command {Here we go...}
