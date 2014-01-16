@@ -11,7 +11,8 @@ var defaults = [
     "Separator", {
         transfer: 500,
         hideProgressBar: true,
-        normalMessage: "+"
+        normalMessage: "correct",
+        errorMessage: "incorrect",
     },
     "Message", {
         transfer: "keypress",
@@ -28,16 +29,16 @@ var items = [
                                                         else return "Bad value for age"; }}
     } ],
 
-        ["intro", "Message", {html: { include: "intro.html" }}],
+        ["intro", "Message", {html: { include: "introduction.html" }}],
 
         ["sr", "__SendResults__", { }],
 
         ["practice", "DashedSentence", {s: "Gary ran quickly to a minimart to get milk."},
                      "Question",       {q: "Where did Gary run?", hasCorrect:"a minimart",  as: ["a minimart", "a dairy", "a wine store"]}],
         ["practice", "DashedSentence", {s: "Stacy built a house out of mud."},
-                     "Question",       {q: 'What did Stacy build her house out of?', hasCorrect: "mud",  as: ["straw", "mud", "wood"]}],],
+                     "Question",       {q: 'What did Stacy build her house out of?', hasCorrect: "mud",  as: ["straw", "mud", "wood"]}],
         ["practice", "DashedSentence", {s: "Bill ate five veggie burgers in one hour."},
-                     "Question",       {q: "What kind of burgers did Bill eat?", hasCorrect: "veggie",  as: ["veggie", "turkey", "beef"]}],],
+                     "Question",       {q: "What kind of burgers did Bill eat?", hasCorrect: "veggie",  as: ["veggie", "turkey", "beef"]}],
 
         ["begin", "Message", {
                                 html: { include: "begin.html" },
