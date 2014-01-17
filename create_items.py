@@ -1,9 +1,14 @@
-from random import shuffle
-from string import Template
+from random import shuffle, choice
+from string import Template, hexdigits
 from optparse import OptionParser
 
+
+def generate_hexcode(length):
+    hex_list = [choice(hexdigits) for i in xrange(length)]
+    return ''.join(hex_list)
+
 exp_template = lambda items: Template('''
-var shuffleSequence = seq("consent", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
+var shuffleSequence = seq("consent", "setcounter", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
 var practiceItemTypes = ["practice"];
 var manualSendResults = true;
 
@@ -12,13 +17,10 @@ var defaults = [
         transfer: 500,
         hideProgressBar: true,
         normalMessage: "correct",
-        errorMessage: "incorrect",
+        errorMessage: "incorrect"
     },
-    "Message", {
-        hideProgressBar: true
-    },
+    "Message", { hideProgressBar: true },
     "Form", { hideProgressBar: true }
-
 ];
 
 var items = [
@@ -30,6 +32,7 @@ var items = [
 
         ["intro", "Message", {html: { include: "introduction.html" }}],
 
+        ["setcounter", "__SetCounter__", { }],
         ["sr", "__SendResults__", { }],
 
         ["practice", "DashedSentence", {s: "Gary ran quickly to a minimart to get milk."},
@@ -51,12 +54,27 @@ var items = [
 
 
 
+debrief_template = lambda code: Template('''<div style="width: 40em;">
+    <p>
+      You are now finished with the experiment. Your payment code can be found below. You will copy this code into the <i>Code</i> field of the survey page in Amazon Mechanical Turk. Once you have done so, submit the survey.</i> Once we have received both the code from Amazon and your data, you will receive your credit.  
+    </p>
+
+    <center>
+      <b>$code</b>
+    </center>
+</div>''').substitute(code=code)
+
+
+
+
+
 class Experiment(object):
 
-    def __init__(self, sentences_file, questions_file):
+    def __init__(self, sentences_file, questions_file, num_of_subjects=60):
 
         self._create_dashed_sentences(sentences_file)
         self._create_questions(questions_file)
+        self._create_debriefs(num_of_subjects)
 
         self._create_experiment()
 
@@ -96,6 +114,11 @@ class Experiment(object):
         self.questions = questions
 
 
+    def _create_debriefs(self, num_of_subjects):
+
+        self.debriefs = Debrief(num_of_subjects)
+        
+
     def _create_controllers(self):
         num_of_items = len(self.sentences)
         
@@ -107,6 +130,9 @@ class Experiment(object):
             controller_str = sentence.create_controllers(self.questions[i], groups[i])
             controller_strings.append(controller_str)
             
+        debrief_str = self.debriefs.create_controller(num_of_items+1)
+        controller_strings.append(debrief_str)
+
         return ',\n'.join(controller_strings)
 
 
@@ -180,6 +206,31 @@ class Question(object):
         
         return template.substitute(question=self.question, answer=self.answer, possible=answer_set_str)
     
+
+class Debrief(object):
+
+    def __init__(self, num_of_subjects):
+
+        self.num_of_subjects = num_of_subjects
+        self.fname_func = lambda i: 'debrief'+str(i)+'.html'
+
+    def create_html(self):
+        for i in xrange(self.num_of_subjects):
+            f = open(self.fname_func(i), 'w')
+            code = generate_hexcode(10)
+            
+            f.write(debrief_template(code))
+
+
+    def create_controller(self, group):
+        template = Template('\t[["debrief", $group], "Message", {html: { include: "$fname" }}]')
+
+        controller_list = [template.substitute(group=group, fname=self.fname_func(i)) for i in xrange(self.num_of_subjects)]
+        
+        #self.create_html()
+
+        return ',\n'.join(controller_list)
+            
 
 
 if __name__ == '__main__':
