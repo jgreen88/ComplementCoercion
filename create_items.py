@@ -8,7 +8,7 @@ def generate_hexcode(length):
     return ''.join(hex_list)
 
 exp_template = lambda items: Template('''
-var shuffleSequence = seq("consent", "setcounter", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
+var shuffleSequence = seq("setcounter", "consent", "intro", "practice", "begin", sepWith("sep", randomize(shuffle("coercion", "preferred", "dispreferred"))), "sr", "debrief");
 var practiceItemTypes = ["practice"];
 var manualSendResults = true;
 
@@ -16,8 +16,8 @@ var defaults = [
     "Separator", {
         transfer: 500,
         hideProgressBar: true,
-        normalMessage: "correct",
-        errorMessage: "incorrect"
+        normalMessage: "+",
+        errorMessage: "Incorrect"
     },
     "Message", { hideProgressBar: true },
     "Form", { hideProgressBar: true }
@@ -87,13 +87,18 @@ class Experiment(object):
 
             if i == 0:
                 sentence_list = [sentence]
-            elif not i % 3:
+            elif i % 3:
+                sentence_list.append(sentence)
+            else:
                 item = DashedSentence(sentence_list)
                 items_list.append(item)
 
                 sentence_list = [sentence]
-            else:
-                sentence_list.append(sentence)
+        else:
+            item = DashedSentence(sentence_list)
+            items_list.append(item)
+
+            sentence_list = [sentence]
 
         self.sentences = items_list
 
