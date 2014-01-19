@@ -20,9 +20,7 @@ var defaults = [
         errorMessage: "Incorrect"
     },
     "DashedSentence", {
-        hideUnderscores: true,
-        showAhead: false,
-        showBehind: false
+        hideUnderscores: true
     },
     "Message", { hideProgressBar: true },
     "Form", { hideProgressBar: true }
@@ -40,11 +38,11 @@ var items = [
         ["setcounter", "__SetCounter__", { }],
         ["sr", "__SendResults__", { }],
 
-        ["practice", "DashedSentence", {s: "Gary ran quickly to a minimart to get milk."},
+        ["practice", "DashedSentence", {s: "Gary ran_quickly to a_minimart to_get milk."},
                      "Question",       {q: "Where did Gary run?", hasCorrect:"a minimart",  as: ["a minimart", "a dairy", "a wine store"]}],
-        ["practice", "DashedSentence", {s: "Stacy built a house out of mud."},
+        ["practice", "DashedSentence", {s: "Stacy built a_house out_of mud."},
                      "Question",       {q: 'What did Stacy build her house out of?', hasCorrect: "mud",  as: ["straw", "mud", "wood"]}],
-        ["practice", "DashedSentence", {s: "Bill ate five veggie burgers in one hour."},
+        ["practice", "DashedSentence", {s: "Bill ate five_veggie_burgers in one_hour."},
                      "Question",       {q: "What kind of burgers did Bill eat?", hasCorrect: "veggie",  as: ["veggie", "turkey", "beef"]}],
 
         ["begin", "Message", {
