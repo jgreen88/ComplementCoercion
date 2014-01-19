@@ -19,9 +19,7 @@ var defaults = [
         normalMessage: "+",
         errorMessage: "Incorrect"
     },
-    "DashedSentence", {
-        hideUnderscores: true
-    },
+    "DashedSentence", {hideUnderscores: true},
     "Message", { hideProgressBar: true },
     "Form", { hideProgressBar: true }
 ];
